@@ -1,0 +1,139 @@
+%D \module
+\setuppapersize[A4][A4] 
+
+\setuplayout[backspace=20mm,
+    width=170mm,
+    topspace=15mm,
+    header=0mm,
+    footer=0mm,
+    height=267mm]
+% \showframe
+\setuphead[section][style=\bfa]
+\setupbodyfont[DejaVu,sans, 12pt]
+\setuppagenumbering[location=]
+\definehspace[oneem][1 em]
+\definehspace[twoem][2 em]
+\definehspace[fourem][4 em]
+
+% \definecolor[gray][s=0.2,t=0.1,a=1]
+\startuseMPgraphic{extended}
+  fill OverlayBox leftenlarged 2cm rightenlarged 4cm topenlarged 2cm withcolor OverlayColor;
+  setbounds currentpicture to OverlayBox;
+\stopuseMPgraphic
+\defineoverlay[extended][\useMPgraphic{extended}]
+
+\setuphead[section][
+	margin=-2em,
+	number=no,
+	textcolor=hex-lightblue,
+	before={\blank[medium]},
+	after={\blank[none]}]
+
+\definehead[titlesection][section]
+\setuphead[titlesection][
+	before={\blank[none]},
+	after={\blank[none]},
+	placehead=hidden,
+	beforesection={
+		\setupbackground[background=extended,boffset=1em]
+		\startbackground
+	},
+   	aftersection={\stopbackground}]
+
+\setuphead[subsection][
+	textcolor=hex-darkblue,
+	margin=0em]
+
+\definehead[publicationsection][subsection]
+\setuphead[publicationsection][number=no,style=\tf\bf,textcolor=hex-darkblue,before=,after=,aftersection={\blank[medium]}]
+
+\definehead[experiencesection][subsection]
+\setuphead[experiencesection][placehead=hidden,number=no,aftersection={\blank[medium]}]
+
+
+\definehead[skillsection][subsection]
+\setuphead[skillsection][
+	alternative=text,
+	style=\bf,
+	align=flushright,
+	insidesection=\hskip-0.49em,
+	command=\SKILLTITLE]
+
+\defineparagraphs[SpreadColumn][n=2,after={\blank[none]},before={\blank[none]}]
+\setupparagraphs[SpreadColumn][2][width=.5\textwidth,command=\FlushRight, distance=0mm]
+\setupparagraphs[SpreadColumn][1][width=.5\textwidth,distance=0mm]
+
+\define[2] \SKILLTITLE {
+	\inframed[width=3.5cm, align=flushright,frame=off]{#2}
+}
+
+\setupcolor[hex]
+\definecolor[hex-lightblue][h=2F5496]
+\definecolor[hex-darkblue][h=1F3864]
+
+\define[2] \TITLE {
+    {\bfd #1}\hspace[twoem]\color[hex-lightblue]{\bfb{#2}}
+	\blank[small]
+}
+
+\def\CONTACT{\bgroup\obeylines\DoContact}
+\def\DoContact#1#2{
+	\startSpreadColumn
+        {#1}
+	\SpreadColumn
+        {#2}
+	\stopSpreadColumn
+\egroup}
+
+\define[1] \FlushRight {
+	\startalignment[outer]
+		{#1}
+	\stopalignment
+}
+
+\define[5] \EXPERIENCE {
+    \setupinteraction[state=start,color=hex-lightblue,style=\tf,focus=standard]
+	\startexperiencesection
+		\startSpreadColumn
+			\color[hex-darkblue]{\bf{#1}}
+		\SpreadColumn
+        {
+        	\inframed[width=\dimexpr 0.5 \textwidth + 2em\relax,frame=off,align=flushright] {{#2}\inframed[width=7em,align=flushleft,frame=off]{\hspace[big]#3}}}
+		\stopSpreadColumn
+		\startnarrower[left]
+            {#4}
+    		{#5}
+		\stopnarrower
+	\stopexperiencesection
+}
+
+\define[4] \EDUCATION {
+    \setupinteraction[state=start,color=hex-lightblue,style=\tf,focus=standard]
+	\startexperiencesection
+		\startSpreadColumn
+			\color[hex-darkblue]{\bf{#1}}
+		\SpreadColumn
+        {
+        	\inframed[width=\dimexpr 0.5 \textwidth + 2em\relax,frame=off,align=flushright] {{#2}\inframed[width=7em,align=flushleft,frame=off]{\hspace[big]#3}}}
+		\stopSpreadColumn
+		\startnarrower[left]
+    		{#4}
+		\stopnarrower
+	\stopexperiencesection
+}
+
+\definereferenceformat[inpub][
+  left=\raisebox{1ex}\hbox\bgroup\tfxx\[,
+  right=\]\egroup]
+
+\definebar[LinkUnderbar][color=hex-darkblue]
+
+\define[1] \LINK {
+    \setupinteraction[state=start,color=black,style=\tf,focus=standard]
+	\goto{#1}[url(http://www.#1)]
+}
+
+\define[1] \EMAIL {
+    \setupinteraction[state=start,color=black,style=\tf,focus=standard]
+	\goto{#1}[url(mailto:#1)]
+}
